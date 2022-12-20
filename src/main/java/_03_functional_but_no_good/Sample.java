@@ -5,6 +5,10 @@ import util.AirportNameUtil;
 import java.util.List;
 import java.util.function.Function;
 
+/*
+*  - Concept of this code: Convert checked exception to unchecked exception
+*  - Disadvantage of this code: Since the checked exception is ignored, it is not known what side effects may occur
+* */
 public class Sample {
     interface FunctionEx<T, R> {
         R apply(T input) throws Exception;

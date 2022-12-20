@@ -6,32 +6,34 @@ import util.AirportNameUtil;
 import java.util.List;
 
 /*
-Stream                        CompletableFuture      Reactive Stream
-0, 1, or more pieces of data  0 or 1                 0, 1, or more
+[Stream]                       [CompletableFuture]      [Reactive Stream]
+0, 1, or more pieces of data   0 or 1                   0, 1, or more
 
-Stream                       Reactive Stream
-pipeline of functions        pipeline of functions
-lazy evaluation              lazy evaluation
+[Stream]                        [Reactive Stream]
+pipeline of functions           pipeline of functions
+lazy evaluation                 lazy evaluation
 
 How do handle exceptions?
-Good luck                    Treat error as data
+Good luck                       Treat error as data
 
-One channel of data          3 channels
-                             -----> data channel
-                             -----> error channel
-                             -----> complete channel
+One channel of data             3 channels
+                                -----> data channel
+                                -----> error channel
+                                -----> complete channel
 
-			     data flows through the data channel
-			     if no more data, a signal may flow through
-			       the complete channel and the data channel
-			       is closed.
+                                data flows through the data channel
+                                if no more data, a signal may flow through
+                                 the complete channel and the data channel
+                                 is closed.
 
-                             if there is an error, an error flows through
-			       the error channel and the data channel
-			       is closed.
+                                if there is an error, an error flows through
+                                 the error channel and the data channel
+                                 is closed.
 
+Disadvantage?
+No way to handle exception      Once the data channel closes no more processing of data is possible
 
-map, filter, etc. can't call           The map, filter, etc. can have lambdas that may throw checked exception
+map, filter, etc. can't call     The map, filter, etc. can have lambdas that may throw checked exception
 lambdas that have checked exception
 */
 public class Sample {
@@ -40,12 +42,12 @@ public class Sample {
         var iataCodes = List.of("AUS", "IAH", "DFW", "TAS", "SAT");
 
         Flowable.fromIterable(iataCodes)
-            .map(AirportNameUtil::getNameOfAirport)
+            .map(AirportNameUtil::getNameOfAirport) // deal with the checked exception
             .map(String::toUpperCase)
             .subscribe(
-                System.out::println, //Data channel
-                error -> System.out.println("ERROR: " + error), //error channel
-                () -> System.out.println("DONE")
+                System.out::println, // Data channel
+                error -> System.out.println("ERROR: " + error), // Error channel
+                () -> System.out.println("DONE") // Complete channel
             );
     }
 }

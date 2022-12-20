@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 
+// Concept of this code: mixture of CompletableFuture and Stream API
+
 //A bit better with a good separation of concern for each function
 //then... focuses on data
 //exceptionally focuses on error
