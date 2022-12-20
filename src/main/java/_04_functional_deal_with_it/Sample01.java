@@ -7,7 +7,7 @@ import static util.AirportNameUtil.getNameOfAirport;
 /*
 * Video related explanation of this code => https://youtu.be/S5tLVsvbHBg?t=3037
 *
-* - Concept of this code: Treat error as data and deal with it downstream and keep going forward
+* - Concept of this code: Treat error as data and deal with it downstream and keep going forward (Inspired by Scala)
 * - This code will work... but disadvantage of this code: The code is no longer cohesive
 *   : In every step, we should ask if it's error or not
 *   : The functional pipeline is no longer as clean as it was before
@@ -22,13 +22,13 @@ import static util.AirportNameUtil.getNameOfAirport;
 *     It may not be the right way to handle exceptions by adding a solution while using the stream API
 *     This is because the design of the stream API itself did not keep exception handling in mind
 * */
-public class Sample {
+public class Sample01 {
 
     public static void main(String[] args) {
         List<String> iataCodes = List.of("AUS", "IAH", "DFW", "TAS", "SAT");
 
         iataCodes.stream()
-            .map(Sample::tryToGetNameOfAirport)
+            .map(Sample01::tryToGetNameOfAirport)
             .map(nameTry -> nameTry.map(String::toUpperCase))
             .map(nameTry -> switch(nameTry) {
                 case Success<String> success -> success.getResult();
