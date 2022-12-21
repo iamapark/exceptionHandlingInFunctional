@@ -18,13 +18,8 @@ public class Sample02 {
             .stream()
             .map(Sample02::tryToGetNameOfAirport)
             .map(nameTry -> nameTry.map(String::toUpperCase))
-            .map(nameTry -> {
-                if (nameTry.isSuccess()) {
-                    return nameTry.get();
-                } else {
-                   return  "Error: " + nameTry.getCause().getMessage();
-                }
-            }).forEach(System.out::println);
+            .map(nameTry -> nameTry.recover(ex -> "Error: " + ex.getMessage()).get())
+            .forEach(System.out::println);
     }
 
     private static Try<String> tryToGetNameOfAirport(String iataCode) {

@@ -1,9 +1,9 @@
 package _06_hanlding_exception_in_the_pipeine_of_CF;
 
-import java.net.URL;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
+
+import static util.AirportNameUtil.getNameOfAirport;
 
 // Concept of this code: mixture of CompletableFuture and Stream API
 
@@ -17,18 +17,7 @@ public class Sample {
 
     public static String getNameOfAirportWithoutThrows(String iata) {
         try {
-            var url = "https://soa.smext.faa.gov/asws/api/airport/status/" + iata;
-
-            try(var scanner = new Scanner(new URL(url).openStream())) {
-                var response = scanner.nextLine();
-
-                if(!response.contains("Name")) {
-                    throw new RuntimeException("Invalid airport code " + iata);
-                }
-
-                return response.split("\"")[3];
-                //way too lazy to do the real work to get the data
-            }
+            return getNameOfAirport(iata);
         }catch(Exception ex) {
             throw new RuntimeException(ex);
         }
